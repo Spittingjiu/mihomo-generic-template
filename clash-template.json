@@ -217,9 +217,6 @@
     }
   },
   "rules": [
-    "DOMAIN,anyrouter.top,节点选择",
-    "DOMAIN,www.anyrouter.top,节点选择",
-    "DOMAIN-SUFFIX,anyrouter.top,节点选择",
     "RULE-SET,my_whitelist,DIRECT",
     "RULE-SET,reject,REJECT",
     "RULE-SET,private,DIRECT",
