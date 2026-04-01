@@ -247,13 +247,15 @@
       "name": "手动选择",
       "type": "select",
       "include-all-proxies": true,
-      "proxies": []
+      "proxies": [],
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "独立选择",
       "type": "select",
       "include-all-proxies": true,
-      "proxies": []
+      "proxies": [],
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "AI分流",
@@ -262,7 +264,8 @@
         "节点选择",
         "自动选择"
       ],
-      "include-all-proxies": true
+      "include-all-proxies": true,
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "YouTube分流",
@@ -271,7 +274,8 @@
         "节点选择",
         "自动选择"
       ],
-      "include-all-proxies": true
+      "include-all-proxies": true,
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "Telegram分流",
@@ -280,7 +284,8 @@
         "节点选择",
         "自动选择"
       ],
-      "include-all-proxies": true
+      "include-all-proxies": true,
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "Google",
@@ -289,7 +294,8 @@
         "节点选择",
         "自动选择"
       ],
-      "include-all-proxies": true
+      "include-all-proxies": true,
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     },
     {
       "name": "自动选择",
@@ -298,7 +304,8 @@
       "proxies": [],
       "url": "https://cp.cloudflare.com/generate_204",
       "interval": 600,
-      "tolerance": 100
+      "tolerance": 100,
+      "exclude-filter": "^(?i:(DIRECT|REJECT|PASS))$"
     }
   ]
 }
