@@ -18,33 +18,19 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
 
-  fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - localhost.ptlogin2.qq.com
-    - "*.msftconnecttest.com"
-    - "*.msftncsi.com"
-    - time.*.com
-    - time.*.gov
-    - pool.ntp.org
-    - "*.pool.ntp.org"
-    - "+.qq.com"
-    - "+.wechat.com"
-    - "+.weixin.qq.com"
-
-  # 只负责 bootstrap，用国内 DNS 没问题
+  # 仅用于解析 DNS 服务器域名，官方要求这里使用 IP
   default-nameserver:
     - 223.5.5.5
     - 223.6.6.6
 
-  # 这里不要再放国内 DNS 了，避免业务泄露
+  # 上游 DNS（混合国内 + 海外）
   nameserver:
-    - 1.1.1.1
-    - 8.8.8.8
     - 223.5.5.5
     - 223.6.6.6
+    - 1.1.1.1
+    - 8.8.8.8
 
-  # 按域名类别分流 DNS
+  # 域名定向 DNS（不使用 geosite）
   nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
@@ -74,7 +60,7 @@ dns:
     '+.instagram.com': 1.1.1.1
     '+.netflix.com': 1.1.1.1
 
-  # 节点域名解析，允许用国内 DNS，保证启动稳定
+  # 节点域名解析
   proxy-server-nameserver:
     - 223.5.5.5
     - 223.6.6.6
@@ -85,14 +71,13 @@ dns:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
 
-  # 直连流量的解析器
+  # 直连查询优先国内
   direct-nameserver:
     - 223.5.5.5
     - 223.6.6.6
-
   direct-nameserver-follow-policy: true
 
-  # fallback 继续保留，用来纠偏
+  # 后备 DNS
   fallback:
     - 1.1.1.1
     - 8.8.8.8
@@ -102,6 +87,14 @@ dns:
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
+
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.msftconnecttest.com'
+    - '*.msftncsi.com'
+    - pool.ntp.org
+    - '*.pool.ntp.org'
 
 sniffer:
   enable: true
@@ -115,346 +108,163 @@ sniffer:
         - 80
         - 8080-8880
   skip-domain:
-    - "Mijia Cloud"
-    - "+.push.apple.com"
+    - 'Mijia Cloud'
+    - '+.push.apple.com'
     - connectivitycheck.gstatic.com
     - connect.rom.miui.com
     - time.android.com
-    - "+.msftconnecttest.com"
-    - "+.msftncsi.com"
-    - "+.googlecast.com"
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - '+.googlecast.com'
 
 rule-providers:
   reject:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
-    path: ./ruleset/blackmatrix7/Advertising_Classical.yaml
     interval: 86400
 
   direct:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
-    path: ./ruleset/blackmatrix7/ChinaMax_Classical.yaml
     interval: 86400
 
   proxy:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Classical.yaml
-    path: ./ruleset/blackmatrix7/Global_Classical.yaml
     interval: 86400
 
   openai:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
-    path: ./ruleset/blackmatrix7/OpenAI.yaml
     interval: 86400
 
   anthropic:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anthropic/Anthropic.yaml
-    path: ./ruleset/blackmatrix7/Anthropic.yaml
     interval: 86400
 
   youtube:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
-    path: ./ruleset/blackmatrix7/YouTube.yaml
     interval: 86400
 
   telegram:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
-    path: ./ruleset/blackmatrix7/Telegram.yaml
     interval: 86400
 
   google:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
-    path: ./ruleset/blackmatrix7/Google.yaml
     interval: 86400
 
   my_whitelist:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/Spittingjiu/clash-custom-rules/main/my_whitelist.yaml
-    path: ./ruleset/custom/my_whitelist.yaml
     interval: 86400
 
   private:
-    type: http
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml
-    path: ./ruleset/blackmatrix7/Lan.yaml
     interval: 86400
 
   cncidr:
-    type: http
     behavior: ipcidr
     format: text
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt
-    path: ./ruleset/loyalsoldier/cncidr.txt
     interval: 86400
 
   lancidr:
-    type: http
     behavior: ipcidr
     format: text
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt
-    path: ./ruleset/loyalsoldier/lancidr.txt
     interval: 86400
 
 rules:
-  - "RULE-SET,my_whitelist,DIRECT"
-  - "RULE-SET,reject,REJECT"
-  - "RULE-SET,private,DIRECT"
-  - "RULE-SET,lancidr,DIRECT,no-resolve"
-  - "RULE-SET,openai,AI分流"
-  - "RULE-SET,anthropic,AI分流"
-  - "RULE-SET,youtube,YouTube分流"
-  - "RULE-SET,telegram,Telegram分流"
-  - "RULE-SET,google,Google"
-  - "RULE-SET,proxy,节点选择"
-  - "RULE-SET,direct,DIRECT"
-  - "RULE-SET,cncidr,DIRECT,no-resolve"
-  - "MATCH,节点选择"
+  - RULE-SET,my_whitelist,DIRECT
+  - RULE-SET,reject,REJECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,lancidr,DIRECT,no-resolve
+  - RULE-SET,openai,AI分流
+  - RULE-SET,anthropic,AI分流
+  - RULE-SET,youtube,YouTube分流
+  - RULE-SET,telegram,Telegram分流
+  - RULE-SET,google,Google分流
+  - RULE-SET,proxy,节点选择
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,cncidr,DIRECT,no-resolve
+  - MATCH,节点选择
 
 proxy-groups:
-  -
-    name: "节点选择"
+  - name: 节点选择
     type: select
     proxies:
-      - "手动选择"
-      - "独立选择"
-      - "自动选择"
+      - 手动选择
+      - 独立选择
+      - 自动选择
 
-  -
-    name: "手动选择"
+  - name: 手动选择
     type: select
     include-all: true
     proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "独立选择"
+  - name: 独立选择
     type: select
     include-all: true
     proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "AI分流"
+  - name: AI分流
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
+      - 节点选择
+      - 自动选择
     include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "YouTube分流"
+  - name: YouTube分流
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
+      - 节点选择
+      - 自动选择
     include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "Telegram分流"
+  - name: Telegram分流
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
+      - 节点选择
+      - 自动选择
     include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "Google"
+  - name: Google分流
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
+      - 节点选择
+      - 自动选择
     include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-  -
-    name: "自动选择"
+  - name: 自动选择
     type: url-test
     include-all: true
     proxies: []
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
 
-proxies:
-  -
-    name: "日本中转cc"
-    type: vless
-    server: 216.23.84.252
-    port: 26206
-    uuid: 1161eee4-fab3-439c-b54a-fc53596beaa3
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.apple.com
-    reality-opts:
-      public-key: D0vHS9jZplovt_ygC3BU9u8Dr2rk8ytftcWLxu95tGY
-      short-id: 3879c81705592394
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "荷兰"
-    type: vless
-    server: bwg.nl.fengqi0216.top
-    port: 443
-    uuid: aeae798f-cc53-4ae6-8ab6-d28363cbabe5
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: emby.vickypig.com
-    reality-opts:
-      public-key: l8wf64iE5W-N3j19F4P9L8Troyj15o3Usq1ixFzbhRo
-      short-id: 2691b708e0
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "CC"
-    type: vless
-    server: 74.48.204.40
-    port: 26206
-    uuid: 1161eee4-fab3-439c-b54a-fc53596beaa3
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.apple.com
-    reality-opts:
-      public-key: D0vHS9jZplovt_ygC3BU9u8Dr2rk8ytftcWLxu95tGY
-      short-id: 3879c81705592394
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "德国中转"
-    type: vless
-    server: 178.22.26.114
-    port: 21033
-    uuid: f8ee5893-6b4e-4ef2-bc4c-be02b621d43a
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.apple.com
-    reality-opts:
-      public-key: CxX3joge23UNq7vuSTgRTuKJRm5eQZIVTezKDKkjJhw
-      short-id: de42cc609e5850d9
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "德国优化"
-    type: vless
-    server: 178.22.26.114
-    port: 30153
-    uuid: fb9224ba-b6e4-4431-ac20-7a5b3754569a
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.cloudflare.com
-    reality-opts:
-      public-key: X1tVKXfmNluCB2BslX7cRyC87YcqQl8C7TbhC4nd1kA
-      short-id: f0794f1bc70af7b5
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "新加坡"
-    type: vless
-    server: 161.118.234.178
-    port: 33438
-    uuid: 613c7e0d-cf19-4348-884b-0970231fb1ec
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.cloudflare.com
-    reality-opts:
-      public-key: g4I1MB_pFP_1psBKgK84ycXe9BdJ3BG40tRTi5_hSGE
-      short-id: a78b74faf744bee0
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "SJCNO"
-    type: vless
-    server: 45.143.130.90
-    port: 37290
-    uuid: d3887886-8244-4ed3-9f11-e3a73c0965f6
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.lovelive-anime.jp
-    reality-opts:
-      public-key: GCyVJOzseG0W9rn0g83kwzeLGRr6gtjetforGLA2RlA
-      short-id: 27229958dec78b9f
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "甲骨文德国"
-    type: vless
-    server: 92.5.82.168
-    port: 29294
-    uuid: f8ee5893-6b4e-4ef2-bc4c-be02b621d43a
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.apple.com
-    reality-opts:
-      public-key: CxX3joge23UNq7vuSTgRTuKJRm5eQZIVTezKDKkjJhw
-      short-id: de42cc609e5850d9
-      spider-x: /
-    client-fingerprint: chrome
-
-  -
-    name: "日本无"
-    type: vless
-    server: jp.zzao.de
-    port: 24783
-    uuid: b514b1b1-d097-4231-b217-c3639a6876e8
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.icloud.com
-    reality-opts:
-      public-key: Leq_Wr0f0oYhSuesrL3cf-1HGSs_IhSd6d46X78sUF8
-      short-id: 88827a147b9668e7
-      spider-x: /
-    client-fingerprint: chrome
+# 隐私模板：由后端动态注入节点
+proxies: []
