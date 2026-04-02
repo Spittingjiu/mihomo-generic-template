@@ -215,17 +215,17 @@
       "path": "./ruleset/loyalsoldier/lancidr.txt",
       "interval": 86400
     },
-    "my_blacklist": {
+    "my_proxylist": {
       "type": "http",
       "behavior": "classical",
       "format": "yaml",
-      "url": "https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_blacklist.yaml",
-      "path": "./ruleset/custom/my_blacklist.yaml",
+      "url": "https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.yaml",
+      "path": "./ruleset/custom/my_proxylist.yaml",
       "interval": 86400
     }
   },
   "rules": [
-    "RULE-SET,my_blacklist,REJECT",
+    "RULE-SET,my_proxylist,节点选择",
     "RULE-SET,my_whitelist,DIRECT",
     "RULE-SET,reject,REJECT",
     "RULE-SET,private,DIRECT",

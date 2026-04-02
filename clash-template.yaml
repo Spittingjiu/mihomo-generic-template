@@ -186,12 +186,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
     path: ./ruleset/blackmatrix7/Google.yaml
     interval: 86400
-  my_blacklist:
+  my_proxylist:
     type: http
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_blacklist.yaml
-    path: ./ruleset/custom/my_blacklist.yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.yaml
+    path: ./ruleset/custom/my_proxylist.yaml
     interval: 86400
   my_whitelist:
     type: http
@@ -225,7 +225,7 @@ rule-providers:
 # ==================== 路由规则 ====================
 # 按从上到下的顺序严格匹配，一旦命中即停止匹配
 rules:
-  - RULE-SET,my_blacklist,REJECT # 你的自定义黑名单优先拦截
+  - RULE-SET,my_proxylist,节点选择 # 你的自定义黑名单优先拦截
   - RULE-SET,my_whitelist,DIRECT # 你的自定义白名单走直连
   - RULE-SET,reject,REJECT # 广告拦截
   - RULE-SET,private,DIRECT # 局域网直连
