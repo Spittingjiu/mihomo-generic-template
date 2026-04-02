@@ -55,11 +55,21 @@ dns:
     'geosite:private': 223.6.6.6
     'geosite:apple': 223.6.6.6
     'geosite:microsoft@cn': 223.6.6.6
+    'geosite:category-games@cn': 223.6.6.6
+    'geosite:steam@cn': 223.6.6.6
     'geosite:google': 223.5.5.5
     'geosite:youtube': 223.5.5.5
     'geosite:telegram': 223.5.5.5
     'geosite:openai': 223.5.5.5
     'geosite:anthropic': 223.5.5.5
+    'geosite:github': 223.5.5.5
+    'geosite:discord': 223.5.5.5
+    'geosite:twitter': 223.5.5.5
+    'geosite:facebook': 223.5.5.5
+    'geosite:instagram': 223.5.5.5
+    'geosite:netflix': 223.5.5.5
+    'geosite:spotify': 223.5.5.5
+    'geosite:tiktok': 223.5.5.5
     'geosite:geolocation-!cn': 223.5.5.5
 
   # 节点域名解析，允许用国内 DNS，保证启动稳定
