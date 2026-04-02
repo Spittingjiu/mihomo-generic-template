@@ -252,6 +252,7 @@ proxy-groups:
       - 手动选择
       - 独立选择
       - 自动选择
+      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
       
   - name: 手动选择
