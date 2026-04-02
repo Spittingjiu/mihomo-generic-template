@@ -158,80 +158,73 @@ rule-providers:
 rules:
   - "DOMAIN-SUFFIX,cloudflare-dns.com,节点选择"
   - "DOMAIN-SUFFIX,dns.google,节点选择"
-  - RULE-SET,my_whitelist,DIRECT
-  - RULE-SET,reject,REJECT
-  - RULE-SET,private,DIRECT
-  - RULE-SET,lancidr,DIRECT,no-resolve
-  - RULE-SET,openai,AI分流
-  - RULE-SET,anthropic,AI分流
-  - RULE-SET,youtube,YouTube分流
-  - RULE-SET,telegram,Telegram分流
-  - RULE-SET,google,Google分流
-  - RULE-SET,proxy,节点选择
-  - RULE-SET,direct,DIRECT
-  - RULE-SET,cncidr,DIRECT,no-resolve
-  - MATCH,节点选择
+  - "RULE-SET,my_whitelist,DIRECT"
+  - "RULE-SET,reject,REJECT"
+  - "RULE-SET,private,DIRECT"
+  - "RULE-SET,lancidr,DIRECT,no-resolve"
+  - "RULE-SET,openai,AI分流"
+  - "RULE-SET,anthropic,AI分流"
+  - "RULE-SET,youtube,YouTube分流"
+  - "RULE-SET,telegram,Telegram分流"
+  - "RULE-SET,google,Google"
+  - "RULE-SET,proxy,节点选择"
+  - "RULE-SET,direct,DIRECT"
+  - "RULE-SET,cncidr,DIRECT,no-resolve"
+  - "MATCH,节点选择"
 
 proxy-groups:
-  - name: 节点选择
+  - name: "节点选择"
     type: select
     proxies:
-      - 手动选择
-      - 独立选择
-      - 自动选择
-
-  - name: 手动选择
+      - "手动选择"
+      - "独立选择"
+      - "自动选择"
+  - name: "手动选择"
     type: select
     include-all: true
     proxies: []
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 独立选择
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "独立选择"
     type: select
     include-all: true
     proxies: []
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: AI分流
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "AI分流"
     type: select
     proxies:
-      - 节点选择
-      - 自动选择
+      - "节点选择"
+      - "自动选择"
     include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: YouTube分流
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "YouTube分流"
     type: select
     proxies:
-      - 节点选择
-      - 自动选择
+      - "节点选择"
+      - "自动选择"
     include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: Telegram分流
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "Telegram分流"
     type: select
     proxies:
-      - 节点选择
-      - 自动选择
+      - "节点选择"
+      - "自动选择"
     include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: Google分流
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "Google"
     type: select
     proxies:
-      - 节点选择
-      - 自动选择
+      - "节点选择"
+      - "自动选择"
     include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 自动选择
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: "自动选择"
     type: url-test
     include-all: true
     proxies: []
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
 # 隐私模板：由后端动态注入节点
 proxies: []
