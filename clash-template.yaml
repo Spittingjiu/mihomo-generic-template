@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-03 01:56:46 CST
+# 更新时间（北京时间）: 2026-04-03 01:58:13 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -248,20 +248,23 @@ rules:
 proxy-groups:
   - name: 节点选择
     type: select
+    proxies:
+      - 手动选择
+      - 独立选择
+      - 自动选择
+
+  - name: 手动选择
+    type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-      
-  - name: 手动选择
+
+  - name: 独立选择
     type: select
-    include-all: true # 引入所有节点
+    include-all: true
     proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$" # 排除直连/拒绝等系统保留策略
-    
-  \1
-      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
+
   - name: AI分流
     type: select
     proxies:
@@ -269,7 +272,7 @@ proxy-groups:
       - 自动选择
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
+
   - name: YouTube分流
     type: select
     proxies:
@@ -277,7 +280,7 @@ proxy-groups:
       - 自动选择
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
+
   - name: Telegram分流
     type: select
     proxies:
@@ -285,7 +288,7 @@ proxy-groups:
       - 自动选择
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
+
   - name: Google
     type: select
     proxies:
@@ -293,12 +296,12 @@ proxy-groups:
       - 自动选择
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
+
   - name: 自动选择
-    type: url-test # 自动测速模式，选择延迟最低的节点
+    type: url-test
     include-all: true
     proxies: []
-    url: https://cp.cloudflare.com/generate_204 # 测速基准地址
-    interval: 600 # 测速间隔为 10 分钟 (600秒)
-    tolerance: 100 # 容差值：毫秒差异在此范围内时不随意切换节点，保持连接稳定
+    url: https://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 100
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
