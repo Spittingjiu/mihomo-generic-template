@@ -225,24 +225,21 @@ proxy-groups:
 
   - name: "手动选择"
     type: select
-    filter: "(?i).*"
-    proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    proxies:
+      - "DIRECT"
 
   - name: "独立选择"
     type: select
-    filter: "(?i).*"
-    proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    proxies:
+      - "DIRECT"
 
   - name: "自动选择"
     type: url-test
-    filter: "(?i).*"
-    proxies: []
+    proxies:
+      - "DIRECT"
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: "AI分流"
     type: select
