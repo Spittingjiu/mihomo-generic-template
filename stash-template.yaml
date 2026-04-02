@@ -270,5 +270,3 @@ proxy-groups:
 
 # 隐私模板：由后端动态注入节点
 proxies: []
-# 隐私模板：由后端动态注入节点
-proxies: []
