@@ -223,10 +223,6 @@ proxy-groups:
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    type: select
-    include-all: true
-    proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
   - name: "独立选择"
     type: select
     include-all: true
