@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-02 15:30:26 CST
+# 更新时间（北京时间）: 2026-04-02 15:35:56 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 allow-lan: false
@@ -135,20 +135,6 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
     path: ./ruleset/blackmatrix7/Advertising_Classical.yaml
     interval: 86400
-  direct:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
-    path: ./ruleset/blackmatrix7/ChinaMax_Classical.yaml
-    interval: 86400
-  proxy:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Classical.yaml
-    path: ./ruleset/blackmatrix7/Global_Classical.yaml
-    interval: 86400
   openai:
     type: http
     behavior: classical
@@ -219,6 +205,41 @@ rule-providers:
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt
     path: ./ruleset/loyalsoldier/lancidr.txt
     interval: 86400
+  github:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml
+    path: ./ruleset/blackmatrix7/GitHub.yaml
+    interval: 86400
+  apple:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
+    path: ./ruleset/blackmatrix7/Apple.yaml
+    interval: 86400
+  microsoft:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
+    path: ./ruleset/blackmatrix7/Microsoft.yaml
+    interval: 86400
+  loyalsoldier_gfw:
+    type: http
+    behavior: domain
+    format: text
+    url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/gfw.txt
+    path: ./ruleset/loyalsoldier/gfw.txt
+    interval: 86400
+  loyalsoldier_direct:
+    type: http
+    behavior: domain
+    format: text
+    url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt
+    path: ./ruleset/loyalsoldier/direct.txt
+    interval: 86400
 
 # ==================== 路由规则 ====================
 rules:
@@ -232,10 +253,12 @@ rules:
   - RULE-SET,youtube,YouTube分流
   - RULE-SET,telegram,Telegram分流
   - RULE-SET,google,Google
-  - RULE-SET,proxy,节点选择
-  - GEOSITE,geolocation-!cn,节点选择
-  - RULE-SET,direct,DIRECT
-  - GEOSITE,cn,DIRECT
+  - RULE-SET,github,节点选择
+  - RULE-SET,apple,DIRECT
+  - RULE-SET,microsoft,DIRECT
+  - RULE-SET,loyalsoldier_gfw,节点选择
+  - RULE-SET,loyalsoldier_direct,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
   - RULE-SET,cncidr,DIRECT,no-resolve
   - MATCH,节点选择
 
@@ -247,51 +270,16 @@ proxy-groups:
       - 手动选择
       - 独立选择
       - 自动选择
-      
   - name: 手动选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
   - name: 独立选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
-  - name: AI分流
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
-  - name: YouTube分流
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
-  - name: Telegram分流
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
-  - name: Google
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-    
   - name: 自动选择
     type: url-test
     include-all: true
@@ -300,3 +288,26 @@ proxy-groups:
     interval: 600
     tolerance: 100
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+  - name: AI分流
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+  - name: YouTube分流
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+  - name: Telegram分流
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+  - name: Google
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+
+# 隐私模板：由后端动态注入节点
+proxies: []
