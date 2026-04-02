@@ -18,18 +18,16 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
 
-  # 仅用于解析 DoH 服务器域名（必须是 IP）
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
 
-  # 纯净主解析：仅海外加密 DNS（严禁国内 DNS 出现在此数组）
   nameserver:
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
 
-  # 严格策略分流：仅国内域名走国内 DNS
   nameserver-policy:
+    'geosite:cn': 223.5.5.5
     '+.cn': 223.5.5.5
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
@@ -37,16 +35,12 @@ dns:
     '+.wechat.com': 223.5.5.5
     '+.weixin.qq.com': 223.5.5.5
 
-  # 节点域名解析（可使用国内 DNS 保证可达）
-  # 节点域名解析（必须使用明文 IP，因为此时代理未建立，无法直连海外 DoH）
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
 
-  # 由 sub 动态注入节点域名（运行时注入）
   proxy-server-nameserver-policy: {}
 
-  # 直连流量固定国内 DNS
   direct-nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -225,17 +219,20 @@ proxy-groups:
   - name: "手动选择"
     type: select
     proxies:
-      - "DIRECT"
+      - DIRECT
 
   - name: "独立选择"
     type: select
     proxies:
-      - "DIRECT"
+      - DIRECT
 
   - name: "自动选择"
-    type: select
+    type: url-test
     proxies:
-      - "DIRECT"
+      - DIRECT
+    url: https://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 100
 
   - name: "AI分流"
     type: select
