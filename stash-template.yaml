@@ -45,7 +45,6 @@ dns:
     - 119.29.29.29
 
   # 由 sub 动态注入更多节点域名；此处保留当前基础映射
-  # 由 sub 动态注入更多节点域名；此处保留当前基础映射
   proxy-server-nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
