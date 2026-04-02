@@ -222,26 +222,24 @@ proxy-groups:
       - "手动选择"
       - "独立选择"
       - "自动选择"
-      - "DIRECT"
 
   - name: "手动选择"
     type: select
     include-all: true
     proxies:
-      - "DIRECT"
+      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: "独立选择"
     type: select
     include-all: true
     proxies:
-      - "DIRECT"
+      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: "AI分流"
     type: select
     proxies:
-      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -250,7 +248,6 @@ proxy-groups:
   - name: "YouTube分流"
     type: select
     proxies:
-      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -259,7 +256,6 @@ proxy-groups:
   - name: "Telegram分流"
     type: select
     proxies:
-      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -268,7 +264,6 @@ proxy-groups:
   - name: "Google"
     type: select
     proxies:
-      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -278,11 +273,13 @@ proxy-groups:
     type: url-test
     include-all: true
     proxies:
-      - "DIRECT"
+      - DIRECT
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
+# 隐私模板：由后端动态注入节点
+proxies: []
 # 隐私模板：由后端动态注入节点
 proxies: []
