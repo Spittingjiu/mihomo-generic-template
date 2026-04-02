@@ -17,72 +17,70 @@ dns:
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-
+  use-hosts: true                  # 推荐添加，优先使用 hosts 文件
+  # fake-ip-filter 尽量精简，只放必须直连且不能用 fake-ip 的本地/特殊域名
   fake-ip-filter:
     - "*.lan"
     - "*.local"
-    - localhost.ptlogin2.qq.com
+    - "localhost.ptlogin2.qq.com"
     - "*.msftconnecttest.com"
     - "*.msftncsi.com"
-    - time.*.com
-    - time.*.gov
-    - pool.ntp.org
+    - "time.*.com"
+    - "time.*.gov"
+    - "pool.ntp.org"
     - "*.pool.ntp.org"
-    - "+.qq.com"
-    - "+.wechat.com"
-    - "+.weixin.qq.com"
-    - "geosite:cn"
-    - "geosite:apple"
-    - "geosite:microsoft@cn"
+    - "+.push.apple.com"
+    - "connectivitycheck.gstatic.com"
+    - "connect.rom.miui.com"
+    - "time.android.com"
+    - "+.googlecast.com"
+    # 移除 geosite:cn、geosite:apple 等大列表！让它们走正常 fake-ip + 规则
 
-  # 只负责 bootstrap，用国内 DNS 没问题
+  # bootstrap DNS（节点域名解析用国内即可，保证启动稳定）
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
 
-  # 这里不要再放国内 DNS 了，避免业务泄露
+  # 主 nameserver：优先国外干净 DNS，避免污染
   nameserver:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    # 可选保留一个国内 DoH 作为备用，但不要放太多
+    # - https://doh.pub/dns-query
 
-  # 按域名类别分流 DNS
+  # 域名策略分流（优先级最高）
   nameserver-policy:
-    'geosite:cn': https://doh.pub/dns-query
-    'geosite:geolocation-!cn': https://1.1.1.1/dns-query
+    'geosite:cn': https://doh.pub/dns-query          # 国内域名用国内 DNS（防污染）
+    'geosite:geolocation-!cn': https://1.1.1.1/dns-query  # 国外用干净 DNS
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
+    # 如果有其他必须用国内 DNS 的域名，继续加在这里
 
-  # 节点域名解析，允许用国内 DNS，保证启动稳定
+  # 节点域名解析（proxy-server-nameserver）
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - https://1.1.1.1/dns-query
-    - https://dns.google/dns-query
-
   proxy-server-nameserver-policy:
     'geosite:cn': 223.5.5.5
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
 
-  # 直连流量的解析器
+  # 直连流量专用 DNS（建议简化）
   direct-nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-
   direct-nameserver-follow-policy: true
 
-  # fallback 继续保留，用来纠偏
+  # fallback 可以简化或保留纠偏，但搭配严格 filter
   fallback:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
-
   fallback-filter:
     geoip: true
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
+      # 可额外加 - 0.0.0.0/32 （可选，防止异常）
 
 sniffer:
   enable: true
