@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-02 15:35:56 CST
+# 更新时间（北京时间）: 2026-04-02 15:55:24 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 allow-lan: false
@@ -8,7 +8,6 @@ ipv6: false
 unified-delay: true
 tcp-concurrent: true
 keep-alive-interval: 60
-find-process-mode: strict
 geodata-mode: false
 geodata-loader: memconservative
 geo-auto-update: true
@@ -118,13 +117,6 @@ sniffer:
     - "geosite:cn"
     - "geosite:apple"
 
-tun:
-  enable: true
-  auto-route: true
-  auto-detect-interface: true
-  dns-hijack:
-    - any:53
-    - tcp://any:53
 
 # ==================== 规则集提供者 ====================
 rule-providers:
