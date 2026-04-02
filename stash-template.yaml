@@ -51,26 +51,17 @@ dns:
   nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
-    'geosite:cn': 223.5.5.5
-    'geosite:private': 223.5.5.5
-    'geosite:apple': 223.5.5.5
-    'geosite:microsoft@cn': 223.5.5.5
-    'geosite:category-games@cn': 223.5.5.5
-    'geosite:steam@cn': 223.5.5.5
-    'geosite:google': 1.1.1.1
-    'geosite:youtube': 1.1.1.1
-    'geosite:telegram': 1.1.1.1
-    'geosite:openai': 1.1.1.1
-    'geosite:anthropic': 1.1.1.1
-    'geosite:github': 1.1.1.1
-    'geosite:discord': 1.1.1.1
-    'geosite:twitter': 1.1.1.1
-    'geosite:facebook': 1.1.1.1
-    'geosite:instagram': 1.1.1.1
-    'geosite:netflix': 1.1.1.1
-    'geosite:spotify': 1.1.1.1
-    'geosite:tiktok': 1.1.1.1
-    'geosite:geolocation-!cn': 1.1.1.1
+    'rule-set:my_whitelist': 223.5.5.5
+    'rule-set:direct': 223.5.5.5
+    'rule-set:private': 223.5.5.5
+    'rule-set:cncidr': 223.5.5.5
+    'rule-set:lancidr': 223.5.5.5
+    'rule-set:openai': 1.1.1.1
+    'rule-set:anthropic': 1.1.1.1
+    'rule-set:youtube': 1.1.1.1
+    'rule-set:telegram': 1.1.1.1
+    'rule-set:google': 1.1.1.1
+    'rule-set:proxy': 1.1.1.1
 
   # 节点域名解析，允许用国内 DNS，保证启动稳定
   proxy-server-nameserver:
@@ -80,9 +71,9 @@ dns:
     - 8.8.8.8
 
   proxy-server-nameserver-policy:
-    'geosite:cn': 223.5.5.5
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
+    'rule-set:my_whitelist': 223.5.5.5
 
   # 直连流量的解析器
   direct-nameserver:
