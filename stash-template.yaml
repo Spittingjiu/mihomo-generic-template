@@ -82,17 +82,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
     interval: 86400
 
-  direct:
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
-    interval: 86400
 
-  proxy:
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Classical.yaml
-    interval: 86400
 
   openai:
     behavior: classical
@@ -202,8 +192,6 @@ rules:
   - "RULE-SET,microsoft,DIRECT"
   - "RULE-SET,loyalsoldier_gfw,节点选择"
   - "RULE-SET,loyalsoldier_direct,DIRECT"
-  - "RULE-SET,proxy,节点选择"
-  - "RULE-SET,direct,DIRECT"
   - "GEOIP,CN,DIRECT,no-resolve"
   - "RULE-SET,cncidr,DIRECT,no-resolve"
   - "MATCH,节点选择"
@@ -219,20 +207,17 @@ proxy-groups:
   - name: "手动选择"
     type: select
     proxies:
-      - DIRECT
+      - "DIRECT"
 
   - name: "独立选择"
     type: select
     proxies:
-      - DIRECT
+      - "DIRECT"
 
   - name: "自动选择"
-    type: url-test
+    type: select
     proxies:
-      - DIRECT
-    url: https://cp.cloudflare.com/generate_204
-    interval: 600
-    tolerance: 100
+      - "DIRECT"
 
   - name: "AI分流"
     type: select
