@@ -15,52 +15,24 @@ dns:
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - localhost.ptlogin2.qq.com
-    - "*.msftconnecttest.com"
-    - "*.msftncsi.com"
-    - time.*.com
-    - time.*.gov
-    - pool.ntp.org
-    - "*.pool.ntp.org"
-    - "+.qq.com"
-    - "+.wechat.com"
-    - "+.weixin.qq.com"
-    - "geosite:cn"
-    - "geosite:apple"
-    - "geosite:microsoft@cn"
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-  nameserver-policy:
-    'geosite:cn': https://doh.pub/dns-query
-    'geosite:geolocation-!cn': https://1.1.1.1/dns-query
   nameserver:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
+  nameserver-policy:
+    'geosite:cn': https://doh.pub/dns-query
+    'geosite:geolocation-!cn': https://1.1.1.1/dns-query
+  direct-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  direct-nameserver-follow-policy: true
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
-  proxy-server-nameserver-policy:
-    'geosite:cn': 223.5.5.5
-    '+.zzao.de': 223.5.5.5
-    '+.fengqi0216.top': 223.5.5.5
-  direct-nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
-  direct-nameserver-follow-policy: true
-  fallback:
-    - https://1.1.1.1/dns-query
-    - https://dns.google/dns-query
-  fallback-filter:
-    geoip: true
-    geoip-code: CN
-    ipcidr:
-      - 240.0.0.0/4
 sniffer:
   enable: true
   sniff:
