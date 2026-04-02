@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-02 15:23:59 CST
+# 更新时间（北京时间）: 2026-04-02 15:30:26 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 allow-lan: false
@@ -7,16 +7,33 @@ log-level: info
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
+keep-alive-interval: 60
+find-process-mode: strict
+geodata-mode: false
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 24
 
 profile:
+  tracing: true
   store-selected: true
   store-fake-ip: true
+
+ntp:
+  enable: true
+  write-to-system: false
+  server: time.apple.com
+  port: 123
 
 # ==================== DNS 核心配置 ====================
 dns:
   enable: true
   listen: 127.0.0.1:1053
+  use-hosts: true
+  use-system-hosts: true
+  skip-cert-verify: false
   ipv6: false
+  prefer-h3: false
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
@@ -75,8 +92,13 @@ dns:
 # ==================== 嗅探器配置 ====================
 sniffer:
   enable: true
+  override-destination: false
   sniff:
     TLS:
+      ports:
+        - 443
+        - 8443
+    QUIC:
       ports:
         - 443
         - 8443
@@ -95,6 +117,14 @@ sniffer:
     - "+.googlecast.com"
     - "geosite:cn"
     - "geosite:apple"
+
+tun:
+  enable: true
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+    - tcp://any:53
 
 # ==================== 规则集提供者 ====================
 rule-providers:
