@@ -5,9 +5,11 @@ log-level: info
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
+
 profile:
   store-selected: true
   store-fake-ip: true
+
 dns:
   enable: true
   listen: 127.0.0.1:1053
@@ -15,14 +17,15 @@ dns:
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+
   fake-ip-filter:
     - "*.lan"
     - "*.local"
     - localhost.ptlogin2.qq.com
     - "*.msftconnecttest.com"
     - "*.msftncsi.com"
-    - "time.*.com"
-    - "time.*.gov"
+    - time.*.com
+    - time.*.gov
     - pool.ntp.org
     - "*.pool.ntp.org"
     - "+.qq.com"
@@ -31,46 +34,56 @@ dns:
     - "geosite:cn"
     - "geosite:apple"
     - "geosite:microsoft@cn"
+
+  # 只负责 bootstrap，用国内 DNS 没问题
   default-nameserver:
-    - 1.1.1.1
-    - 8.8.8.8
-  nameserver-policy:
-    geosite:cn:
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-    geosite:geolocation-!cn:
-      - https://1.1.1.1/dns-query
-      - https://dns.google/dns-query
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 这里不要再放国内 DNS 了，避免业务泄露
   nameserver:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+  # 按域名类别分流 DNS
+  nameserver-policy:
+    'geosite:cn': https://doh.pub/dns-query
+    'geosite:geolocation-!cn': https://1.1.1.1/dns-query
+    '+.zzao.de': 223.5.5.5
+    '+.fengqi0216.top': 223.5.5.5
+
+  # 节点域名解析，允许用国内 DNS，保证启动稳定
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
+
   proxy-server-nameserver-policy:
-    geosite:cn:
-      - 223.5.5.5
-      - 119.29.29.29
-    +.zzao.de:
-      - 223.5.5.5
-      - 119.29.29.29
-    +.fengqi0216.top:
-      - 223.5.5.5
-      - 119.29.29.29
+    'geosite:cn': 223.5.5.5
+    '+.zzao.de': 223.5.5.5
+    '+.fengqi0216.top': 223.5.5.5
+
+  # 直连流量的解析器
   direct-nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+
   direct-nameserver-follow-policy: true
+
+  # fallback 继续保留，用来纠偏
   fallback:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
+
   fallback-filter:
     geoip: true
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
+
 sniffer:
   enable: true
   sniff:
@@ -93,6 +106,7 @@ sniffer:
     - "+.googlecast.com"
     - "geosite:cn"
     - "geosite:apple"
+
 rule-providers:
   reject:
     type: http
@@ -101,6 +115,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
     path: ./ruleset/blackmatrix7/Advertising_Classical.yaml
     interval: 86400
+
   direct:
     type: http
     behavior: classical
@@ -108,6 +123,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
     path: ./ruleset/blackmatrix7/ChinaMax_Classical.yaml
     interval: 86400
+
   proxy:
     type: http
     behavior: classical
@@ -115,6 +131,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Classical.yaml
     path: ./ruleset/blackmatrix7/Global_Classical.yaml
     interval: 86400
+
   openai:
     type: http
     behavior: classical
@@ -122,6 +139,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
     path: ./ruleset/blackmatrix7/OpenAI.yaml
     interval: 86400
+
   anthropic:
     type: http
     behavior: classical
@@ -129,6 +147,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anthropic/Anthropic.yaml
     path: ./ruleset/blackmatrix7/Anthropic.yaml
     interval: 86400
+
   youtube:
     type: http
     behavior: classical
@@ -136,6 +155,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
     path: ./ruleset/blackmatrix7/YouTube.yaml
     interval: 86400
+
   telegram:
     type: http
     behavior: classical
@@ -143,6 +163,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
     path: ./ruleset/blackmatrix7/Telegram.yaml
     interval: 86400
+
   google:
     type: http
     behavior: classical
@@ -150,6 +171,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
     path: ./ruleset/blackmatrix7/Google.yaml
     interval: 86400
+
   my_whitelist:
     type: http
     behavior: classical
@@ -157,6 +179,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/Spittingjiu/clash-custom-rules/main/my_whitelist.yaml
     path: ./ruleset/custom/my_whitelist.yaml
     interval: 86400
+
   private:
     type: http
     behavior: classical
@@ -164,6 +187,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml
     path: ./ruleset/blackmatrix7/Lan.yaml
     interval: 86400
+
   cncidr:
     type: http
     behavior: ipcidr
@@ -171,6 +195,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt
     path: ./ruleset/loyalsoldier/cncidr.txt
     interval: 86400
+
   lancidr:
     type: http
     behavior: ipcidr
@@ -178,6 +203,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt
     path: ./ruleset/loyalsoldier/lancidr.txt
     interval: 86400
+
 rules:
   - "RULE-SET,my_whitelist,DIRECT"
   - "RULE-SET,reject,REJECT"
@@ -194,6 +220,7 @@ rules:
   - "GEOSITE,cn,DIRECT"
   - "RULE-SET,cncidr,DIRECT,no-resolve"
   - "MATCH,节点选择"
+
 proxy-groups:
   -
     name: "节点选择"
@@ -201,61 +228,68 @@ proxy-groups:
     proxies:
       - "手动选择"
       - "独立选择"
-      - DIRECT
       - "自动选择"
+
   -
     name: "手动选择"
     type: select
-    include-all-proxies: true
-    proxies:
-      - DIRECT
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
     name: "独立选择"
     type: select
-    include-all-proxies: true
-    proxies:
-      - DIRECT
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
     name: "AI分流"
     type: select
     proxies:
       - "节点选择"
       - "自动选择"
-      - DIRECT
-    include-all-proxies: true
+    include-all: true
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
     name: "YouTube分流"
     type: select
     proxies:
       - "节点选择"
       - "自动选择"
-      - DIRECT
-    include-all-proxies: true
+    include-all: true
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
     name: "Telegram分流"
     type: select
     proxies:
       - "节点选择"
       - "自动选择"
-      - DIRECT
-    include-all-proxies: true
+    include-all: true
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
-    name: Google
+    name: "Google"
     type: select
     proxies:
       - "节点选择"
       - "自动选择"
-      - DIRECT
-    include-all-proxies: true
+    include-all: true
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   -
     name: "自动选择"
     type: url-test
-    include-all-proxies: true
-    proxies:
-      - DIRECT
+    include-all: true
+    proxies: []
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
 proxies:
   -
     name: "日本中转cc"
@@ -273,6 +307,7 @@ proxies:
       short-id: 3879c81705592394
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "荷兰"
     type: vless
@@ -289,8 +324,9 @@ proxies:
       short-id: 2691b708e0
       spider-x: /
     client-fingerprint: chrome
+
   -
-    name: CC
+    name: "CC"
     type: vless
     server: 74.48.204.40
     port: 26206
@@ -305,6 +341,7 @@ proxies:
       short-id: 3879c81705592394
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "德国中转"
     type: vless
@@ -321,6 +358,7 @@ proxies:
       short-id: de42cc609e5850d9
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "德国优化"
     type: vless
@@ -337,6 +375,7 @@ proxies:
       short-id: f0794f1bc70af7b5
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "新加坡"
     type: vless
@@ -353,8 +392,9 @@ proxies:
       short-id: a78b74faf744bee0
       spider-x: /
     client-fingerprint: chrome
+
   -
-    name: SJCNO
+    name: "SJCNO"
     type: vless
     server: 45.143.130.90
     port: 37290
@@ -369,6 +409,7 @@ proxies:
       short-id: 27229958dec78b9f
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "甲骨文德国"
     type: vless
@@ -385,6 +426,7 @@ proxies:
       short-id: de42cc609e5850d9
       spider-x: /
     client-fingerprint: chrome
+
   -
     name: "日本无"
     type: vless
