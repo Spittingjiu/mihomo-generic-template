@@ -31,34 +31,7 @@ dns:
     - 8.8.8.8
 
   # 域名定向 DNS（不使用 geosite）
-  nameserver-policy:
-    '+.zzao.de': 223.5.5.5
-    '+.fengqi0216.top': 223.5.5.5
-    '+.qq.com': 223.5.5.5
-    '+.wechat.com': 223.5.5.5
-    '+.weixin.qq.com': 223.5.5.5
-    '+.baidu.com': 223.5.5.5
-    '+.bilibili.com': 223.5.5.5
-    '+.jd.com': 223.5.5.5
-    '+.taobao.com': 223.5.5.5
-    '+.alicdn.com': 223.5.5.5
-    '+.douyin.com': 223.5.5.5
-    '+.amap.com': 223.5.5.5
-    '+.163.com': 223.5.5.5
-    '+.126.net': 223.5.5.5
-    '+.openai.com': 1.1.1.1
-    '+.anthropic.com': 1.1.1.1
-    '+.google.com': 1.1.1.1
-    '+.youtube.com': 1.1.1.1
-    '+.telegram.org': 1.1.1.1
-    '+.t.me': 1.1.1.1
-    '+.github.com': 1.1.1.1
-    '+.discord.com': 1.1.1.1
-    '+.x.com': 1.1.1.1
-    '+.twitter.com': 1.1.1.1
-    '+.facebook.com': 1.1.1.1
-    '+.instagram.com': 1.1.1.1
-    '+.netflix.com': 1.1.1.1
+  nameserver-policy: {}
 
   # 节点域名解析
   proxy-server-nameserver:
@@ -67,9 +40,7 @@ dns:
     - 1.1.1.1
     - 8.8.8.8
 
-  proxy-server-nameserver-policy:
-    '+.zzao.de': 223.5.5.5
-    '+.fengqi0216.top': 223.5.5.5
+  proxy-server-nameserver-policy: {}
 
   # 直连查询优先国内
   direct-nameserver:
