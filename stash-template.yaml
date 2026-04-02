@@ -220,12 +220,9 @@ rules:
 proxy-groups:
   - name: "节点选择"
     type: select
-    proxies:
-      - "手动选择"
-      - "独立选择"
-      - "自动选择"
-      - "DIRECT"
-  - name: "手动选择"
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
     type: select
     include-all: true
     proxies: []
