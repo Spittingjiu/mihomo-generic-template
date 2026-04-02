@@ -131,6 +131,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
     interval: 86400
 
+  my_blacklist:
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_blacklist.yaml
+    interval: 86400
+
   my_whitelist:
     behavior: classical
     format: yaml
