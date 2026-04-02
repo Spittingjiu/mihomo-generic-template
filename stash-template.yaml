@@ -233,12 +233,9 @@ proxy-groups:
       - "DIRECT"
 
   - name: "自动选择"
-    type: url-test
+    type: select
     proxies:
       - "DIRECT"
-    url: https://cp.cloudflare.com/generate_204
-    interval: 600
-    tolerance: 100
 
   - name: "AI分流"
     type: select
