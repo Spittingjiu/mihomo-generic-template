@@ -14,7 +14,7 @@ dns:
   enable: true
   listen: 127.0.0.1:1053
   ipv6: false
-  respect-rules: true
+  follow-rule: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
 
@@ -31,9 +31,6 @@ dns:
     - "+.qq.com"
     - "+.wechat.com"
     - "+.weixin.qq.com"
-    - "geosite:cn"
-    - "geosite:apple"
-    - "geosite:microsoft@cn"
 
   # 只负责 bootstrap，用国内 DNS 没问题
   default-nameserver:
@@ -51,17 +48,31 @@ dns:
   nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
-    'rule-set:my_whitelist': 223.5.5.5
-    'rule-set:direct': 223.5.5.5
-    'rule-set:private': 223.5.5.5
-    'rule-set:cncidr': 223.5.5.5
-    'rule-set:lancidr': 223.5.5.5
-    'rule-set:openai': 1.1.1.1
-    'rule-set:anthropic': 1.1.1.1
-    'rule-set:youtube': 1.1.1.1
-    'rule-set:telegram': 1.1.1.1
-    'rule-set:google': 1.1.1.1
-    'rule-set:proxy': 1.1.1.1
+    '+.qq.com': 223.5.5.5
+    '+.wechat.com': 223.5.5.5
+    '+.weixin.qq.com': 223.5.5.5
+    '+.baidu.com': 223.5.5.5
+    '+.bilibili.com': 223.5.5.5
+    '+.jd.com': 223.5.5.5
+    '+.taobao.com': 223.5.5.5
+    '+.alicdn.com': 223.5.5.5
+    '+.douyin.com': 223.5.5.5
+    '+.amap.com': 223.5.5.5
+    '+.163.com': 223.5.5.5
+    '+.126.net': 223.5.5.5
+    '+.openai.com': 1.1.1.1
+    '+.anthropic.com': 1.1.1.1
+    '+.google.com': 1.1.1.1
+    '+.youtube.com': 1.1.1.1
+    '+.telegram.org': 1.1.1.1
+    '+.t.me': 1.1.1.1
+    '+.github.com': 1.1.1.1
+    '+.discord.com': 1.1.1.1
+    '+.x.com': 1.1.1.1
+    '+.twitter.com': 1.1.1.1
+    '+.facebook.com': 1.1.1.1
+    '+.instagram.com': 1.1.1.1
+    '+.netflix.com': 1.1.1.1
 
   # 节点域名解析，允许用国内 DNS，保证启动稳定
   proxy-server-nameserver:
@@ -73,7 +84,6 @@ dns:
   proxy-server-nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
-    'rule-set:my_whitelist': 223.5.5.5
 
   # 直连流量的解析器
   direct-nameserver:
@@ -113,8 +123,6 @@ sniffer:
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "+.googlecast.com"
-    - "geosite:cn"
-    - "geosite:apple"
 
 rule-providers:
   reject:
@@ -224,9 +232,7 @@ rules:
   - "RULE-SET,telegram,Telegram分流"
   - "RULE-SET,google,Google"
   - "RULE-SET,proxy,节点选择"
-  - "GEOSITE,geolocation-!cn,节点选择"
   - "RULE-SET,direct,DIRECT"
-  - "GEOSITE,cn,DIRECT"
   - "RULE-SET,cncidr,DIRECT,no-resolve"
   - "MATCH,节点选择"
 
