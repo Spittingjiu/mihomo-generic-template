@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-02 15:25:23 CST
+# 更新时间（北京时间）: 2026-04-03 01:56:46 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -258,10 +258,8 @@ proxy-groups:
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$" # 排除直连/拒绝等系统保留策略
     
-  - name: 独立选择
-    type: select
-    include-all: true
-    proxies: []
+  \1
+      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
     
   - name: AI分流
