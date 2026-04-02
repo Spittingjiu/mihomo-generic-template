@@ -224,6 +224,7 @@ proxy-groups:
       - "手动选择"
       - "独立选择"
       - "自动选择"
+      - "DIRECT"
   - name: "手动选择"
     type: select
     include-all: true
