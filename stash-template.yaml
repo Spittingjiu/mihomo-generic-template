@@ -18,38 +18,55 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
 
-  # 仅用于解析 DNS 服务器域名，官方要求这里使用 IP
+  # 仅用于解析 DoH/DoT 服务器域名（必须是 IP）
   default-nameserver:
     - 223.5.5.5
-    - 223.6.6.6
+    - 119.29.29.29
 
-  # 上游 DNS（混合国内 + 海外）
+  # 主解析使用加密 DNS，避免 53 端口被污染/黑洞
   nameserver:
-    - 1.1.1.1
-    - 8.8.8.8
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
 
-  # 域名定向 DNS（不使用 geosite）
-  nameserver-policy: {}
+  # 国内域名优先走国内 DNS，降低 DoH 开销
+  nameserver-policy:
+    '+.zzao.de': 223.5.5.5
+    '+.fengqi0216.top': 223.5.5.5
+    '+.cn': 223.5.5.5
+    '+.qq.com': 223.5.5.5
+    '+.wechat.com': 223.5.5.5
+    '+.weixin.qq.com': 223.5.5.5
+    '+.baidu.com': 223.5.5.5
+    '+.bilibili.com': 223.5.5.5
+    '+.jd.com': 223.5.5.5
+    '+.taobao.com': 223.5.5.5
+    '+.alicdn.com': 223.5.5.5
+    '+.douyin.com': 223.5.5.5
+    '+.amap.com': 223.5.5.5
+    '+.163.com': 223.5.5.5
+    '+.126.net': 223.5.5.5
 
-  # 节点域名解析
+  # 节点域名解析也要稳：国内 IP + 加密 DNS 混用
   proxy-server-nameserver:
     - 223.5.5.5
-    - 223.6.6.6
-    - 1.1.1.1
-    - 8.8.8.8
+    - 119.29.29.29
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
 
   proxy-server-nameserver-policy: {}
 
-  # 直连查询优先国内
+  # 直连流量固定国内 DNS
   direct-nameserver:
     - 223.5.5.5
-    - 223.6.6.6
+    - 119.29.29.29
   direct-nameserver-follow-policy: true
 
-  # 后备 DNS
+  # fallback 同样使用加密 DNS
   fallback:
-    - 1.1.1.1
-    - 8.8.8.8
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
 
   fallback-filter:
     geoip: true
