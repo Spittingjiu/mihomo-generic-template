@@ -220,14 +220,23 @@ rules:
 proxy-groups:
   - name: "节点选择"
     type: select
+    proxies:
+      - "手动选择"
+      - "独立选择"
+      - "自动选择"
+
+  - name: "手动选择"
+    type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "独立选择"
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "AI分流"
     type: select
     proxies:
@@ -235,6 +244,7 @@ proxy-groups:
       - "自动选择"
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "YouTube分流"
     type: select
     proxies:
@@ -242,6 +252,7 @@ proxy-groups:
       - "自动选择"
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "Telegram分流"
     type: select
     proxies:
@@ -249,6 +260,7 @@ proxy-groups:
       - "自动选择"
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "Google"
     type: select
     proxies:
@@ -256,6 +268,7 @@ proxy-groups:
       - "自动选择"
     include-all: true
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: "自动选择"
     type: url-test
     include-all: true
