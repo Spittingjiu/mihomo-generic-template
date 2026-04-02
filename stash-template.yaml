@@ -210,9 +210,7 @@ rules:
   - "RULE-SET,loyalsoldier_gfw,节点选择"
   - "RULE-SET,loyalsoldier_direct,DIRECT"
   - "RULE-SET,proxy,节点选择"
-  - "GEOSITE,geolocation-!cn,节点选择"
   - "RULE-SET,direct,DIRECT"
-  - "GEOSITE,cn,DIRECT"
   - "GEOIP,CN,DIRECT,no-resolve"
   - "RULE-SET,cncidr,DIRECT,no-resolve"
   - "MATCH,节点选择"
@@ -224,8 +222,7 @@ proxy-groups:
       - "手动选择"
       - "独立选择"
       - "自动选择"
-
-  - name: "手动选择"
+      - "DIRECT"
     type: select
     include-all: true
     proxies: []
@@ -234,12 +231,14 @@ proxy-groups:
   - name: "独立选择"
     type: select
     include-all: true
-    proxies: []
+    proxies:
+      - "DIRECT"
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: "AI分流"
     type: select
     proxies:
+      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -248,6 +247,7 @@ proxy-groups:
   - name: "YouTube分流"
     type: select
     proxies:
+      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -256,6 +256,7 @@ proxy-groups:
   - name: "Telegram分流"
     type: select
     proxies:
+      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -264,6 +265,7 @@ proxy-groups:
   - name: "Google"
     type: select
     proxies:
+      - "DIRECT"
       - "节点选择"
       - "自动选择"
     include-all: true
@@ -272,7 +274,8 @@ proxy-groups:
   - name: "自动选择"
     type: url-test
     include-all: true
-    proxies: []
+    proxies:
+      - "DIRECT"
     url: https://cp.cloudflare.com/generate_204
     interval: 600
     tolerance: 100
