@@ -30,7 +30,6 @@ dns:
 
   # 严格策略分流：仅国内域名走国内 DNS
   nameserver-policy:
-    'geosite:cn': 223.5.5.5
     '+.cn': 223.5.5.5
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
