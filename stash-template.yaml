@@ -155,41 +155,6 @@ rule-providers:
     url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt
     interval: 86400
 
-  netflix:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml
-    interval: 86400
-
-  spotify:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml
-    interval: 86400
-
-  twitter:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml
-    interval: 86400
-
-  apple:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
-    interval: 86400
-
-  microsoft:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
-    interval: 86400
-
 rules:
   - "DOMAIN-SUFFIX,cloudflare-dns.com,节点选择"
   - "DOMAIN-SUFFIX,dns.google,节点选择"
@@ -201,11 +166,6 @@ rules:
   - RULE-SET,anthropic,AI分流
   - RULE-SET,youtube,YouTube分流
   - RULE-SET,telegram,Telegram分流
-  - RULE-SET,netflix,流媒体分流
-  - RULE-SET,spotify,流媒体分流
-  - RULE-SET,twitter,社交媒体
-  - RULE-SET,apple,苹果服务
-  - RULE-SET,microsoft,微软服务
   - RULE-SET,google,Google分流
   - RULE-SET,proxy,节点选择
   - RULE-SET,direct,DIRECT
@@ -259,40 +219,6 @@ proxy-groups:
   - name: Google分流
     type: select
     proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 流媒体分流
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 社交媒体
-    type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 苹果服务
-    type: select
-    proxies:
-      - DIRECT
-      - 节点选择
-      - 自动选择
-    include-all: true
-    exclude-filter: '^(?i:(DIRECT|REJECT|PASS))$'
-
-  - name: 微软服务
-    type: select
-    proxies:
-      - DIRECT
       - 节点选择
       - 自动选择
     include-all: true
