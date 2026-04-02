@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-03 02:06:03 CST
+# 更新时间（北京时间）: 2026-04-03 02:07:00 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 allow-lan: false
@@ -262,26 +262,42 @@ proxy-groups:
       - 手动选择
       - 独立选择
       - 自动选择
+
   - name: 手动选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
   - name: 独立选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
-  \1    proxies: []
+
+  - name: AI分流
     type: select
-    proxies:
-      - 节点选择
-      - 自动选择
-  \1    proxies: []
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: YouTube分流
     type: select
-    proxies:
-      - 节点选择
-      - 自动选择
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: Telegram分流
+    type: select
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: Google
+    type: select
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: 自动选择
     type: url-test
