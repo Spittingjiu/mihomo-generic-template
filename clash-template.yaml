@@ -247,10 +247,12 @@ rules:
 proxy-groups:
   - name: 节点选择
     type: select
+    include-all: true
     proxies:
       - 手动选择
       - 独立选择
       - 自动选择
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
       
   - name: 手动选择
     type: select
