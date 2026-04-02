@@ -42,42 +42,42 @@ dns:
 
   # 这里不要再放国内 DNS 了，避免业务泄露
   nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
     - 223.5.5.5
     - 223.6.6.6
-    - 223.6.6.6
-    - 223.5.5.5
 
   # 按域名类别分流 DNS
   nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
-    'geosite:cn': 223.6.6.6
-    'geosite:private': 223.6.6.6
-    'geosite:apple': 223.6.6.6
-    'geosite:microsoft@cn': 223.6.6.6
-    'geosite:category-games@cn': 223.6.6.6
-    'geosite:steam@cn': 223.6.6.6
-    'geosite:google': 223.5.5.5
-    'geosite:youtube': 223.5.5.5
-    'geosite:telegram': 223.5.5.5
-    'geosite:openai': 223.5.5.5
-    'geosite:anthropic': 223.5.5.5
-    'geosite:github': 223.5.5.5
-    'geosite:discord': 223.5.5.5
-    'geosite:twitter': 223.5.5.5
-    'geosite:facebook': 223.5.5.5
-    'geosite:instagram': 223.5.5.5
-    'geosite:netflix': 223.5.5.5
-    'geosite:spotify': 223.5.5.5
-    'geosite:tiktok': 223.5.5.5
-    'geosite:geolocation-!cn': 223.5.5.5
+    'geosite:cn': 223.5.5.5
+    'geosite:private': 223.5.5.5
+    'geosite:apple': 223.5.5.5
+    'geosite:microsoft@cn': 223.5.5.5
+    'geosite:category-games@cn': 223.5.5.5
+    'geosite:steam@cn': 223.5.5.5
+    'geosite:google': 1.1.1.1
+    'geosite:youtube': 1.1.1.1
+    'geosite:telegram': 1.1.1.1
+    'geosite:openai': 1.1.1.1
+    'geosite:anthropic': 1.1.1.1
+    'geosite:github': 1.1.1.1
+    'geosite:discord': 1.1.1.1
+    'geosite:twitter': 1.1.1.1
+    'geosite:facebook': 1.1.1.1
+    'geosite:instagram': 1.1.1.1
+    'geosite:netflix': 1.1.1.1
+    'geosite:spotify': 1.1.1.1
+    'geosite:tiktok': 1.1.1.1
+    'geosite:geolocation-!cn': 1.1.1.1
 
   # 节点域名解析，允许用国内 DNS，保证启动稳定
   proxy-server-nameserver:
     - 223.5.5.5
     - 223.6.6.6
-    - 223.5.5.5
-    - 223.6.6.6
+    - 1.1.1.1
+    - 8.8.8.8
 
   proxy-server-nameserver-policy:
     'geosite:cn': 223.5.5.5
@@ -86,15 +86,15 @@ dns:
 
   # 直连流量的解析器
   direct-nameserver:
-    - 223.6.6.6
     - 223.5.5.5
+    - 223.6.6.6
 
   direct-nameserver-follow-policy: true
 
   # fallback 继续保留，用来纠偏
   fallback:
-    - 223.5.5.5
-    - 223.6.6.6
+    - 1.1.1.1
+    - 8.8.8.8
 
   fallback-filter:
     geoip: true
