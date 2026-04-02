@@ -38,36 +38,36 @@ dns:
   # 只负责 bootstrap，用国内 DNS 没问题
   default-nameserver:
     - 223.5.5.5
-    - 119.29.29.29
+    - 223.6.6.6
 
   # 这里不要再放国内 DNS 了，避免业务泄露
   nameserver:
-    - 1.1.1.1
-    - 8.8.8.8
-    - 119.29.29.29
+    - 223.5.5.5
+    - 223.6.6.6
+    - 223.6.6.6
     - 223.5.5.5
 
   # 按域名类别分流 DNS
   nameserver-policy:
     '+.zzao.de': 223.5.5.5
     '+.fengqi0216.top': 223.5.5.5
-    'geosite:cn': 119.29.29.29
-    'geosite:private': 119.29.29.29
-    'geosite:apple': 119.29.29.29
-    'geosite:microsoft@cn': 119.29.29.29
-    'geosite:google': 1.1.1.1
-    'geosite:youtube': 1.1.1.1
-    'geosite:telegram': 1.1.1.1
-    'geosite:openai': 1.1.1.1
-    'geosite:anthropic': 1.1.1.1
-    'geosite:geolocation-!cn': 1.1.1.1
+    'geosite:cn': 223.6.6.6
+    'geosite:private': 223.6.6.6
+    'geosite:apple': 223.6.6.6
+    'geosite:microsoft@cn': 223.6.6.6
+    'geosite:google': 223.5.5.5
+    'geosite:youtube': 223.5.5.5
+    'geosite:telegram': 223.5.5.5
+    'geosite:openai': 223.5.5.5
+    'geosite:anthropic': 223.5.5.5
+    'geosite:geolocation-!cn': 223.5.5.5
 
   # 节点域名解析，允许用国内 DNS，保证启动稳定
   proxy-server-nameserver:
     - 223.5.5.5
-    - 119.29.29.29
-    - 1.1.1.1
-    - 8.8.8.8
+    - 223.6.6.6
+    - 223.5.5.5
+    - 223.6.6.6
 
   proxy-server-nameserver-policy:
     'geosite:cn': 223.5.5.5
@@ -76,15 +76,15 @@ dns:
 
   # 直连流量的解析器
   direct-nameserver:
-    - 119.29.29.29
+    - 223.6.6.6
     - 223.5.5.5
 
   direct-nameserver-follow-policy: true
 
   # fallback 继续保留，用来纠偏
   fallback:
-    - 1.1.1.1
-    - 8.8.8.8
+    - 223.5.5.5
+    - 223.6.6.6
 
   fallback-filter:
     geoip: true
