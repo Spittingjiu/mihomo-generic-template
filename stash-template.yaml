@@ -223,9 +223,12 @@ proxy-groups:
       - "独立选择"
       - "自动选择"
       - "DIRECT"
+
+  - name: "手动选择"
     type: select
     include-all: true
-    proxies: []
+    proxies:
+      - "DIRECT"
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: "独立选择"
