@@ -134,7 +134,7 @@ rule-providers:
   my_whitelist:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/Spittingjiu/clash-custom-rules/main/my_whitelist.yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.yaml
     interval: 86400
 
   private:
@@ -188,6 +188,7 @@ rule-providers:
 rules:
   - "DOMAIN-SUFFIX,cloudflare-dns.com,节点选择"
   - "DOMAIN-SUFFIX,dns.google,节点选择"
+  - "RULE-SET,my_blacklist,REJECT"
   - "RULE-SET,my_whitelist,DIRECT"
   - "RULE-SET,reject,REJECT"
   - "RULE-SET,private,DIRECT"
