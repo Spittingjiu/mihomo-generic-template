@@ -199,7 +199,7 @@ rule-providers:
     behavior: classical
     format: yaml
     url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.yaml?v=20260408-1
-    path: ./ruleset/custom/my_whitelist.yaml?v=20260408-1
+    path: ./ruleset/custom/my_whitelist.yaml
     interval: 86400
   private:
     type: http
