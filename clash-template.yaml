@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-18 12:05:00 CST
+# 更新时间（北京时间）: 2026-04-18 12:16:00 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -295,7 +295,8 @@ proxy-groups:
   - name: Steam
     type: select
     include-all: true
-    proxies: []
+    proxies:
+      - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
   - name: 自动选择
     type: url-test
