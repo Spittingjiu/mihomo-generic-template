@@ -1,5 +1,3 @@
-# 更新时间（北京时间）: 2026-04-03 02:07:00 CST
-# 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 allow-lan: false
 mode: rule
@@ -24,7 +22,6 @@ ntp:
   server: time.apple.com
   port: 123
 
-# ==================== DNS 核心配置 ====================
 dns:
   enable: true
   listen: 127.0.0.1:1053
@@ -36,7 +33,7 @@ dns:
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  
+
   fake-ip-filter:
     - "*.lan"
     - "*.local"
@@ -88,7 +85,6 @@ dns:
     ipcidr:
       - 240.0.0.0/4
 
-# ==================== 嗅探器配置 ====================
 sniffer:
   enable: true
   override-destination: false
@@ -117,8 +113,6 @@ sniffer:
     - "geosite:cn"
     - "geosite:apple"
 
-
-# ==================== 规则集提供者 ====================
 rule-providers:
   reject:
     type: http
@@ -161,6 +155,13 @@ rule-providers:
     format: yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
     path: ./ruleset/blackmatrix7/Google.yaml
+    interval: 86400
+  bilibili:
+    type: http
+    behavior: domain
+    format: text
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.list
+    path: ./ruleset/blackmatrix7/BiliBili.list
     interval: 86400
   my_proxylist:
     type: http
@@ -233,61 +234,62 @@ rule-providers:
     path: ./ruleset/loyalsoldier/direct.txt
     interval: 86400
 
-# ==================== 路由规则 ====================
 rules:
-  - RULE-SET,my_proxylist,节点选择
+  - RULE-SET,my_proxylist,NodeSelect
   - RULE-SET,my_whitelist,DIRECT
   - RULE-SET,reject,REJECT
+
+  - RULE-SET,openai,AI
+  - RULE-SET,anthropic,AI
+  - RULE-SET,youtube,YouTube
+  - RULE-SET,telegram,Telegram
+  - RULE-SET,google,Google
+  - RULE-SET,github,NodeSelect
+  - RULE-SET,loyalsoldier_gfw,NodeSelect
+  - RULE-SET,bilibili,DIRECT
   - RULE-SET,private,DIRECT
   - RULE-SET,lancidr,DIRECT,no-resolve
-  - RULE-SET,openai,AI分流
-  - RULE-SET,anthropic,AI分流
-  - RULE-SET,youtube,YouTube分流
-  - RULE-SET,telegram,Telegram分流
-  - RULE-SET,google,Google
-  - RULE-SET,github,节点选择
   - RULE-SET,apple,DIRECT
   - RULE-SET,microsoft,DIRECT
-  - RULE-SET,loyalsoldier_gfw,节点选择
   - RULE-SET,loyalsoldier_direct,DIRECT
+
   - GEOIP,CN,DIRECT,no-resolve
   - RULE-SET,cncidr,DIRECT,no-resolve
-  - MATCH,节点选择
+  - MATCH,NodeSelect
 
-# ==================== 策略组 ====================
 proxy-groups:
-  - name: 节点选择
+  - name: NodeSelect
     type: select
     proxies:
-      - 手动选择
-      - 独立选择
-      - 自动选择
+      - ManualSelect
+      - IndependentSelect
+      - AutoSelect
 
-  - name: 手动选择
+  - name: ManualSelect
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: 独立选择
+  - name: IndependentSelect
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: AI分流
+  - name: AI
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: YouTube分流
+  - name: YouTube
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: Telegram分流
+  - name: Telegram
     type: select
     include-all: true
     proxies: []
@@ -299,7 +301,7 @@ proxy-groups:
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: 自动选择
+  - name: AutoSelect
     type: url-test
     include-all: true
     proxies: []
@@ -308,5 +310,4 @@ proxy-groups:
     tolerance: 100
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-# 隐私模板：由后端动态注入节点
 proxies: []
