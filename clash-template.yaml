@@ -5,6 +5,8 @@ log-level: info
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
+geodata-mode: true
+geodata-loader: memcache
 
 profile:
   store-selected: true
