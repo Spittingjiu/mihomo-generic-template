@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-18 11:21:00 CST
+# 更新时间（北京时间）: 2026-04-18 11:44:00 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -75,12 +75,6 @@ dns:
   # 代理节点域名的定向解析策略
   proxy-server-nameserver-policy:
     "geosite:cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "+.zzao.de":
-      - 223.5.5.5
-      - 119.29.29.29
-    "+.fengqi0216.top":
       - 223.5.5.5
       - 119.29.29.29
 
@@ -189,17 +183,17 @@ rule-providers:
     interval: 86400
   my_proxylist:
     type: http
-    behavior: domain
-    format: text
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.list?v=56018b363525
-    path: ./ruleset/custom/my_proxylist.list
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.yaml?v=56018b363525
+    path: ./ruleset/custom/my_proxylist.yaml
     interval: 86400
   my_whitelist:
     type: http
-    behavior: domain
-    format: text
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.list?v=56018b363525
-    path: ./ruleset/custom/my_whitelist.list
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.yaml?v=56018b363525
+    path: ./ruleset/custom/my_whitelist.yaml
     interval: 86400
   private:
     type: http
