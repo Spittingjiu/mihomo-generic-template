@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-18 12:01:00 CST
+# 更新时间（北京时间）: 2026-04-18 12:05:00 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -237,7 +237,7 @@ rules:
   - RULE-SET,youtube,YouTube分流
   - RULE-SET,telegram,Telegram分流
   - RULE-SET,google,Google
-  - RULE-SET,steam,DIRECT
+  - RULE-SET,steam,Steam
   - RULE-SET,proxy,节点选择
   - GEOSITE,geolocation-!cn,节点选择 # 非中国大陆域名走代理
   - RULE-SET,direct,DIRECT # 中国大陆规则集走直连
@@ -291,6 +291,12 @@ proxy-groups:
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
+
+  - name: Steam
+    type: select
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
   - name: 自动选择
     type: url-test
     include-all: true
