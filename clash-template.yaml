@@ -210,7 +210,6 @@ rule-providers:
 rules:
   - RULE-SET,my_proxylist,节点选择
   - RULE-SET,my_whitelist,DIRECT
-  - RULE-SET,reject,REJECT
 
   - RULE-SET,openai,AI分流
   - RULE-SET,anthropic,AI分流
@@ -222,6 +221,7 @@ rules:
   - RULE-SET,private,DIRECT
   - RULE-SET,lancidr,DIRECT,no-resolve
 
+  - RULE-SET,reject,REJECT
   - RULE-SET,proxy,节点选择
   - GEOSITE,geolocation-!cn,节点选择
   - RULE-SET,direct,DIRECT
