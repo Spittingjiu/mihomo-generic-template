@@ -1,4 +1,4 @@
-# 更新时间（北京时间）: 2026-04-18 08:58:00 CST
+# 更新时间（北京时间）: 2026-04-18 11:21:00 CST
 # 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
 # 是否允许局域网内的其他设备连接此代理
@@ -191,14 +191,14 @@ rule-providers:
     type: http
     behavior: domain
     format: text
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.list
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.list?v=56018b363525
     path: ./ruleset/custom/my_proxylist.list
     interval: 86400
   my_whitelist:
     type: http
     behavior: domain
     format: text
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.list?v=20260418-2
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.list?v=56018b363525
     path: ./ruleset/custom/my_whitelist.list
     interval: 86400
   private:
