@@ -227,6 +227,26 @@ rule-providers:
 # ==================== 路由规则 ====================
 # 按从上到下的顺序严格匹配，一旦命中即停止匹配
 rules:
+  - DOMAIN-SUFFIX,acg.tv,DIRECT # B站相关直连
+  - DOMAIN-SUFFIX,b23.tv,DIRECT
+  - DOMAIN-SUFFIX,biliapi.com,DIRECT
+  - DOMAIN-SUFFIX,biliapi.net,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.cn,DIRECT
+  - DOMAIN-SUFFIX,bilibili.net,DIRECT
+  - DOMAIN-SUFFIX,biliimg.com,DIRECT
+  - DOMAIN-SUFFIX,bilicdn1.com,DIRECT
+  - DOMAIN-SUFFIX,bilicdn2.com,DIRECT
+  - DOMAIN-SUFFIX,bilicdn3.com,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.com,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.cn,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.net,DIRECT
+  - DOMAIN-SUFFIX,hdslb.com,DIRECT
+  - DOMAIN-SUFFIX,hdslb.net,DIRECT
+  - DOMAIN-SUFFIX,upos-hz-mirrorakam.akamaized.net,DIRECT
+  - DOMAIN-SUFFIX,upos-bstar-mirrorakam.akamaized.net,DIRECT
+  - DOMAIN-SUFFIX,upos-bstar1-mirrorakam.akamaized.net,DIRECT
+  - DOMAIN,p-bstarstatic.akamaized.net,DIRECT
   - RULE-SET,my_proxylist,节点选择 # 你的自定义黑名单优先拦截
   - RULE-SET,my_whitelist,DIRECT # 你的自定义白名单走直连
   - RULE-SET,reject,REJECT # 广告拦截
