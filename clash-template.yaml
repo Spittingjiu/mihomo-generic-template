@@ -305,7 +305,7 @@ proxy-groups:
     proxies:
       - 节点选择
       - DIRECT
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    exclude-filter: "^(?i:(REJECT|PASS))$"
   - name: 自动选择
     type: url-test
     include-all: true
