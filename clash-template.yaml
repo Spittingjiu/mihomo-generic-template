@@ -198,7 +198,7 @@ rule-providers:
     type: http
     behavior: domain
     format: text
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.list?v=20260408-1
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.list?v=20260418-2
     path: ./ruleset/custom/my_whitelist.list
     interval: 86400
   private:
