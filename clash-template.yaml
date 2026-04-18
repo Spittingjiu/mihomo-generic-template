@@ -208,68 +208,68 @@ rule-providers:
     interval: 86400
 
 rules:
-  - RULE-SET,my_proxylist,NodeSelect
+  - RULE-SET,my_proxylist,节点选择
   - RULE-SET,my_whitelist,DIRECT
   - RULE-SET,reject,REJECT
 
-  - RULE-SET,openai,AI
-  - RULE-SET,anthropic,AI
-  - RULE-SET,youtube,YouTube
-  - RULE-SET,telegram,Telegram
+  - RULE-SET,openai,AI分流
+  - RULE-SET,anthropic,AI分流
+  - RULE-SET,youtube,YouTube分流
+  - RULE-SET,telegram,Telegram分流
   - RULE-SET,google,Google
   - RULE-SET,steam,Steam
   - RULE-SET,bilibili,DIRECT
   - RULE-SET,private,DIRECT
   - RULE-SET,lancidr,DIRECT,no-resolve
 
-  - RULE-SET,proxy,NodeSelect
-  - GEOSITE,geolocation-!cn,NodeSelect
+  - RULE-SET,proxy,节点选择
+  - GEOSITE,geolocation-!cn,节点选择
   - RULE-SET,direct,DIRECT
   - GEOSITE,cn,DIRECT
   - RULE-SET,cncidr,DIRECT,no-resolve
-  - MATCH,NodeSelect
+  - MATCH,节点选择
 
 proxy-groups:
-  - name: NodeSelect
+  - name: 节点选择
     type: select
     proxies:
-      - ManualSelect
-      - IndependentSelect
-      - AutoSelect
+      - 手动选择
+      - 独立选择
+      - 自动选择
 
-  - name: ManualSelect
+  - name: 手动选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: IndependentSelect
+  - name: 独立选择
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: AI
+  - name: AI分流
     type: select
     include-all: true
     proxies:
-      - NodeSelect
+      - 节点选择
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: YouTube
+  - name: YouTube分流
     type: select
     include-all: true
     proxies:
-      - NodeSelect
+      - 节点选择
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: Telegram
+  - name: Telegram分流
     type: select
     include-all: true
     proxies:
-      - NodeSelect
+      - 节点选择
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
@@ -277,7 +277,7 @@ proxy-groups:
     type: select
     include-all: true
     proxies:
-      - NodeSelect
+      - 节点选择
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
@@ -285,10 +285,10 @@ proxy-groups:
     type: select
     include-all: true
     proxies:
-      - NodeSelect
+      - 节点选择
       - DIRECT
     exclude-filter: "^(?i:(REJECT|PASS))$"
-  - name: AutoSelect
+  - name: 自动选择
     type: url-test
     include-all: true
     proxies: []
