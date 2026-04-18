@@ -1,34 +1,23 @@
-# 更新时间（北京时间）: 2026-04-18 12:27:00 CST
-# 混合端口，支持 HTTP(S) 和 SOCKS5 代理
 mixed-port: 7890
-# 是否允许局域网内的其他设备连接此代理
 allow-lan: false
-# 运行模式：rule (规则分流)、global (全局代理)、direct (全局直连)
 mode: rule
-# 日志输出级别
 log-level: info
-# 是否开启 IPv6 支持
 ipv6: false
-# 统一延迟，消除握手等带来的延迟误差
 unified-delay: true
-# 允许 TCP 并发连接，提高加载速度
 tcp-concurrent: true
 
-# 配置文件存储行为
 profile:
-  store-selected: true # 记忆手动选择的节点
-  store-fake-ip: true  # 记忆 Fake-IP 映射，防止 DNS 污染和重复解析
+  store-selected: true
+  store-fake-ip: true
 
-# ==================== DNS 核心配置 ====================
 dns:
-  enable: true # 启用内置 DNS 服务器
-  listen: 127.0.0.1:1053 # DNS 监听地址和端口
+  enable: true
+  listen: 127.0.0.1:1053
   ipv6: false
-  respect-rules: true # DNS 查询是否尊重分流规则
-  enhanced-mode: fake-ip # 增强模式：使用假 IP 极速响应并防污染
-  fake-ip-range: 198.18.0.1/16 # Fake-IP 的分配网段
-  
-  # Fake-IP 过滤名单：这些域名返回真实 IP（常用于本地、路由和特定系统域名）
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+
   fake-ip-filter:
     - "*.lan"
     - "*.local"
@@ -46,12 +35,10 @@ dns:
     - "geosite:apple"
     - "geosite:microsoft@cn"
 
-  # 默认 DNS：仅用于解析下方 DoH/DoT 的域名，必须是纯 IP
   default-nameserver:
     - 1.1.1.1
     - 8.8.8.8
 
-  # 域名定向 DNS：按指定策略精准匹配，特定域名走特定 DNS
   nameserver-policy:
     "geosite:cn":
       - https://doh.pub/dns-query
@@ -60,44 +47,36 @@ dns:
       - https://1.1.1.1/dns-query
       - https://dns.google/dns-query
 
-  # 主 DNS：默认的加密解析服务器
   nameserver:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
 
-  # 代理节点域名的专属解析器
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
 
-  # 代理节点域名的定向解析策略
   proxy-server-nameserver-policy:
     "geosite:cn":
       - 223.5.5.5
       - 119.29.29.29
 
-  # 直连流量专属 DNS
   direct-nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
   direct-nameserver-follow-policy: true
 
-  # 兜底/备用 DNS
   fallback:
     - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
 
-  # 备用 DNS 过滤机制：主要用于处理未匹配的国内 IP 回退
   fallback-filter:
     geoip: true
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
 
-# ==================== 嗅探器配置 ====================
-# 用于获取真实域名，修复透明代理下的路由分流问题
 sniffer:
   enable: true
   sniff:
@@ -109,7 +88,6 @@ sniffer:
       ports:
         - 80
         - 8080-8880
-  # 忽略嗅探的域名列表（避免部分应用如米家、系统推送等工作异常）
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
@@ -122,8 +100,6 @@ sniffer:
     - "geosite:cn"
     - "geosite:apple"
 
-# ==================== 规则集提供者 ====================
-# 远程动态拉取最新的分流规则，interval: 86400 为每天更新一次
 rule-providers:
   reject:
     type: http
@@ -231,76 +207,69 @@ rule-providers:
     path: ./ruleset/loyalsoldier/lancidr.txt
     interval: 86400
 
-# ==================== 路由规则 ====================
-# 按从上到下的顺序严格匹配，一旦命中即停止匹配
 rules:
-  # 第一梯队（固定置顶）
-  - RULE-SET,my_proxylist,节点选择 # 你的自定义黑名单优先拦截
-  - RULE-SET,my_whitelist,DIRECT # 你的自定义白名单走直连
-  - RULE-SET,reject,REJECT # 广告拦截
+  - RULE-SET,my_proxylist,NodeSelect
+  - RULE-SET,my_whitelist,DIRECT
+  - RULE-SET,reject,REJECT
 
-  # 第二梯队（特定规则；代理在前、直连在后）
-  - RULE-SET,openai,AI分流
-  - RULE-SET,anthropic,AI分流
-  - RULE-SET,youtube,YouTube分流
-  - RULE-SET,telegram,Telegram分流
+  - RULE-SET,openai,AI
+  - RULE-SET,anthropic,AI
+  - RULE-SET,youtube,YouTube
+  - RULE-SET,telegram,Telegram
   - RULE-SET,google,Google
   - RULE-SET,steam,Steam
-  - RULE-SET,bilibili,DIRECT # B站上游规则集走直连
-  - RULE-SET,private,DIRECT # 局域网直连
-  - RULE-SET,lancidr,DIRECT,no-resolve # 局域网 IP 直连 (不进行 DNS 解析)
+  - RULE-SET,bilibili,DIRECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,lancidr,DIRECT,no-resolve
 
-  # 第三梯队（大规则集与兜底）
-  - RULE-SET,proxy,节点选择
-  - GEOSITE,geolocation-!cn,节点选择 # 非中国大陆域名走代理
-  - RULE-SET,direct,DIRECT # 中国大陆规则集走直连
-  - GEOSITE,cn,DIRECT # 中国大陆域名走直连
-  - RULE-SET,cncidr,DIRECT,no-resolve # 中国大陆 IP 走直连 (不进行 DNS 解析)
-  - MATCH,节点选择 # 全局兜底规则：以上都没匹配到的流量全走代理
+  - RULE-SET,proxy,NodeSelect
+  - GEOSITE,geolocation-!cn,NodeSelect
+  - RULE-SET,direct,DIRECT
+  - GEOSITE,cn,DIRECT
+  - RULE-SET,cncidr,DIRECT,no-resolve
+  - MATCH,NodeSelect
 
-# ==================== 策略组 ====================
-# 用于在不同节点间进行选择或提供自动化策略
 proxy-groups:
-  - name: 节点选择
+  - name: NodeSelect
     type: select
     proxies:
-      - 手动选择
-      - 独立选择
-      - 自动选择
+      - ManualSelect
+      - IndependentSelect
+      - AutoSelect
 
-  - name: 手动选择
+  - name: ManualSelect
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: 独立选择
+  - name: IndependentSelect
     type: select
     include-all: true
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: AI分流
+  - name: AI
     type: select
     include-all: true
     proxies:
-      - 节点选择
+      - NodeSelect
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: YouTube分流
+  - name: YouTube
     type: select
     include-all: true
     proxies:
-      - 节点选择
+      - NodeSelect
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: Telegram分流
+  - name: Telegram
     type: select
     include-all: true
     proxies:
-      - 节点选择
+      - NodeSelect
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
@@ -308,7 +277,7 @@ proxy-groups:
     type: select
     include-all: true
     proxies:
-      - 节点选择
+      - NodeSelect
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
@@ -316,10 +285,10 @@ proxy-groups:
     type: select
     include-all: true
     proxies:
-      - 节点选择
+      - NodeSelect
       - DIRECT
     exclude-filter: "^(?i:(REJECT|PASS))$"
-  - name: 自动选择
+  - name: AutoSelect
     type: url-test
     include-all: true
     proxies: []
