@@ -234,18 +234,23 @@ rule-providers:
 # ==================== 路由规则 ====================
 # 按从上到下的顺序严格匹配，一旦命中即停止匹配
 rules:
-  - RULE-SET,bilibili,DIRECT # B站上游规则集走直连
+  # 第一梯队（固定置顶）
   - RULE-SET,my_proxylist,节点选择 # 你的自定义黑名单优先拦截
   - RULE-SET,my_whitelist,DIRECT # 你的自定义白名单走直连
   - RULE-SET,reject,REJECT # 广告拦截
-  - RULE-SET,private,DIRECT # 局域网直连
-  - RULE-SET,lancidr,DIRECT,no-resolve # 局域网 IP 直连 (不进行 DNS 解析)
+
+  # 第二梯队（特定规则；代理在前、直连在后）
   - RULE-SET,openai,AI分流
   - RULE-SET,anthropic,AI分流
   - RULE-SET,youtube,YouTube分流
   - RULE-SET,telegram,Telegram分流
   - RULE-SET,google,Google
   - RULE-SET,steam,Steam
+  - RULE-SET,bilibili,DIRECT # B站上游规则集走直连
+  - RULE-SET,private,DIRECT # 局域网直连
+  - RULE-SET,lancidr,DIRECT,no-resolve # 局域网 IP 直连 (不进行 DNS 解析)
+
+  # 第三梯队（大规则集与兜底）
   - RULE-SET,proxy,节点选择
   - GEOSITE,geolocation-!cn,节点选择 # 非中国大陆域名走代理
   - RULE-SET,direct,DIRECT # 中国大陆规则集走直连
