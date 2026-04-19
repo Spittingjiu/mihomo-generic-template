@@ -174,20 +174,6 @@ rule-providers:
     url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/gvt1.yaml
     path: ./ruleset/custom/gvt1.yaml
     interval: 86400
-  steam-cdn:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.yaml
-    path: ./ruleset/metacubex/steam-cdn.yaml
-    interval: 86400
-  steam-store:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.yaml
-    path: ./ruleset/metacubex/steam-store.yaml
-    interval: 86400
   bilibili:
     type: http
     behavior: classical
@@ -242,7 +228,6 @@ rules:
   - RULE-SET,google_play,Google
   - RULE-SET,google,Google
   - RULE-SET,gvt1,Google
-  - RULE-SET,steam-cdn,DIRECT
 
   - RULE-SET,reject,REJECT
   - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT
@@ -251,7 +236,6 @@ rules:
   - RULE-SET,anthropic,AI分流
   - RULE-SET,youtube,YouTube分流
   - RULE-SET,telegram,Telegram分流
-  - RULE-SET,steam-store,Steam
 
   - RULE-SET,proxy,节点选择
   - GEOSITE,geolocation-!cn,节点选择
