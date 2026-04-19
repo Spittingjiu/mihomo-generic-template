@@ -298,13 +298,6 @@ proxy-groups:
       - DIRECT
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
-  - name: Steam
-    type: select
-    include-all: true
-    proxies:
-      - 节点选择
-      - DIRECT
-    exclude-filter: "^(?i:(REJECT|PASS))$"
   - name: 自动选择
     type: url-test
     include-all: true
