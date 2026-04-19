@@ -227,6 +227,7 @@ rules:
   - RULE-SET,bilibili,DIRECT
 
   - RULE-SET,reject,REJECT
+  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT
 
   - RULE-SET,openai,AI分流
   - RULE-SET,anthropic,AI分流
