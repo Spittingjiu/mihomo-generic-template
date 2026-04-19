@@ -162,10 +162,10 @@ rule-providers:
     interval: 86400
   google_play:
     type: http
-    behavior: domain
-    format: text
-    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.list
-    path: ./ruleset/metacubex/google-play.list
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/google_play.yaml
+    path: ./ruleset/custom/google_play.yaml
     interval: 86400
   steam:
     type: http
