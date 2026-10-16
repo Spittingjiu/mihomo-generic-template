@@ -5,7 +5,6 @@ log-level: info
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
-find-process-mode: off
 
 profile:
   store-selected: true
@@ -45,15 +44,15 @@ dns:
     - 119.29.29.29
 
   nameserver-policy:
-    "geosite:cn,private,apple":
+    "geosite:cn":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
     "geosite:geolocation-!cn":
-      - https://cloudflare-dns.com/dns-query
+      - https://1.1.1.1/dns-query
       - https://dns.google/dns-query
 
   nameserver:
-    - https://cloudflare-dns.com/dns-query
+    - https://1.1.1.1/dns-query
     - https://dns.google/dns-query
 
   proxy-server-nameserver:
@@ -61,6 +60,11 @@ dns:
     - 119.29.29.29
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+
+   proxy-server-nameserver-policy:
+    "geosite:cn":
+      - 223.5.5.5
+      - 119.29.29.29
 
   direct-nameserver:
     - https://doh.pub/dns-query
@@ -101,6 +105,60 @@ sniffer:
     - "+.myqcloud.com"
     - "geosite:cn"
     - "geosite:apple"
+
+proxy-groups:
+  - name: 节点选择
+    type: select
+    proxies:
+      - 手动选择
+      - 自动选择
+
+  - name: 手动选择
+    type: select
+    include-all: true
+    proxies: []
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: ChatGPT
+    type: select
+    include-all: true
+    proxies:
+      - 节点选择
+      - DIRECT
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: YouTube分流
+    type: select
+    include-all: true
+    proxies:
+      - 节点选择
+      - DIRECT
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: Telegram分流
+    type: select
+    include-all: true
+    proxies:
+      - 节点选择
+      - DIRECT
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: Google
+    type: select
+    include-all: true
+    proxies:
+      - 节点选择
+      - DIRECT
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    proxies: []
+    url: https://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 100
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
 rule-providers:
   reject:
@@ -226,4 +284,13 @@ rules:
 
   - RULE-SET,openai,ChatGPT,no-resolve
   - RULE-SET,youtube,YouTube分流,no-resolve
-  - RULE-SET,telegram,Telegram分流,
+  - RULE-SET,telegram,Telegram分流,no-resolve
+
+  - RULE-SET,proxy,节点选择
+  - GEOSITE,geolocation-!cn,节点选择
+  - RULE-SET,direct,DIRECT
+  - GEOSITE,cn,DIRECT
+
+  - RULE-SET,cncidr,DIRECT,no-resolve
+
+  - MATCH,节点选择
