@@ -61,7 +61,7 @@ dns:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
 
-   proxy-server-nameserver-policy:
+  proxy-server-nameserver-policy:
     "geosite:cn":
       - 223.5.5.5
       - 119.29.29.29
