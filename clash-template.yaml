@@ -119,6 +119,13 @@ proxy-groups:
     proxies: []
     exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
+  - name: Gemini
+    type: select
+    include-all: true
+    proxies: []
+    # 自动剔除 DIRECT/REJECT 以及香港、澳门、中国大陆节点，防止误选导致地区不支持
+    exclude-filter: "(?i)(^(DIRECT|REJECT|PASS)$|港|HK|Hong Kong|HongKong|澳门|MO|Macau|CN|中国|内地)"
+
   - name: ChatGPT
     type: select
     include-all: true
@@ -181,6 +188,13 @@ rule-providers:
     format: text
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.list
     path: ./ruleset/blackmatrix7/Global.list
+    interval: 86400
+  gemini:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml
+    path: ./ruleset/blackmatrix7/Gemini.yaml
     interval: 86400
   openai:
     type: http
@@ -276,15 +290,20 @@ rules:
   - GEOSITE,tencent,DIRECT
 
   - RULE-SET,bilibili,DIRECT,no-resolve
-  - RULE-SET,google_play,Google,no-resolve
-  - RULE-SET,google,Google,no-resolve
-  - RULE-SET,gvt1,Google,no-resolve
 
   - RULE-SET,reject,REJECT
 
+  # AI 与细分流媒体规则必须置于 Google 大规则集之前
+  - GEOSITE,google-gemini,Gemini
+  - RULE-SET,gemini,Gemini,no-resolve
   - RULE-SET,openai,ChatGPT,no-resolve
   - RULE-SET,youtube,YouTube分流,no-resolve
   - RULE-SET,telegram,Telegram分流,no-resolve
+
+  # Google 通用规则兜底
+  - RULE-SET,google_play,Google,no-resolve
+  - RULE-SET,google,Google,no-resolve
+  - RULE-SET,gvt1,Google,no-resolve
 
   - RULE-SET,proxy,节点选择
   - GEOSITE,geolocation-!cn,节点选择
