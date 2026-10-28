@@ -307,11 +307,14 @@ rules:
   - RULE-SET,google,Google,no-resolve
   - RULE-SET,gvt1,Google,no-resolve
 
-  - RULE-SET,proxy,节点选择
-  - GEOSITE,geolocation-!cn,节点选择
+  # 国内直连前置（大幅加速国内 85%+ 请求，降低匹配开销）
   - RULE-SET,direct,DIRECT
   - GEOSITE,cn,DIRECT
-
   - RULE-SET,cncidr,DIRECT,no-resolve
+  - GEOIP,CN,DIRECT,no-resolve
+
+  # 海外通用规则与未分类流量走代理
+  - RULE-SET,proxy,节点选择
+  - GEOSITE,geolocation-!cn,节点选择
 
   - MATCH,节点选择
