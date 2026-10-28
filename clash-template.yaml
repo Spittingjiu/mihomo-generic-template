@@ -123,7 +123,8 @@ proxy-groups:
     type: select
     include-all: true
     proxies: []
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    # 自动剔除 DIRECT/REJECT 以及香港、澳门、中国大陆节点，防止误选导致地区不支持
+    exclude-filter: "(?i)(^(DIRECT|REJECT|PASS)$|港|HK|Hong Kong|HongKong|澳门|MO|Macau|CN|中国|内地)"
 
   - name: ChatGPT
     type: select
@@ -293,8 +294,8 @@ rules:
   - RULE-SET,reject,REJECT
 
   # AI 与细分流媒体规则必须置于 Google 大规则集之前
-  - DOMAIN-SUFFIX,antigravity.google,Gemini
-  - DOMAIN-KEYWORD,antigravity,Gemini
+  - DOMAIN-SUFFIX,antigravity.google
+  - DOMAIN-KEYWORD,antigravity
   - GEOSITE,google-gemini,Gemini
   - RULE-SET,gemini,Gemini,no-resolve
   - RULE-SET,openai,ChatGPT,no-resolve
