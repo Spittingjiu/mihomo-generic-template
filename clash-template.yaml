@@ -123,8 +123,7 @@ proxy-groups:
     type: select
     include-all: true
     proxies: []
-    # 自动剔除 DIRECT/REJECT 以及香港、澳门、中国大陆节点，防止误选导致地区不支持
-    exclude-filter: "(?i)(^(DIRECT|REJECT|PASS)$|港|HK|Hong Kong|HongKong|澳门|MO|Macau|CN|中国|内地)"
+    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
 
   - name: ChatGPT
     type: select
