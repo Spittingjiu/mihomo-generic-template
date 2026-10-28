@@ -293,8 +293,8 @@ rules:
   - RULE-SET,reject,REJECT
 
   # AI 与细分流媒体规则必须置于 Google 大规则集之前
-  - DOMAIN-SUFFIX,antigravity.google
-  - DOMAIN-KEYWORD,antigravity
+  - DOMAIN-SUFFIX,antigravity.google,Gemini
+  - DOMAIN-KEYWORD,antigravity,Gemini
   - GEOSITE,google-gemini,Gemini
   - RULE-SET,gemini,Gemini,no-resolve
   - RULE-SET,openai,ChatGPT,no-resolve
