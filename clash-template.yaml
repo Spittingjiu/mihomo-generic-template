@@ -249,14 +249,14 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.yaml?v=56018b363525
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_proxylist.yaml
     path: ./ruleset/custom/my_proxylist.yaml
     interval: 3600
   my_whitelist:
     type: http
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.yaml?v=56018b363525
+    url: https://raw.githubusercontent.com/Spittingjiu/mihomo-custom-rules/main/my_whitelist.yaml
     path: ./ruleset/custom/my_whitelist.yaml
     interval: 3600
   private:
@@ -294,8 +294,8 @@ rules:
   - RULE-SET,reject,REJECT
 
   # AI 与细分流媒体规则必须置于 Google 大规则集之前
-  - DOMAIN-SUFFIX,antigravity.google
-  - DOMAIN-KEYWORD,antigravity
+  - DOMAIN-SUFFIX,antigravity.google,Gemini
+  - DOMAIN-KEYWORD,antigravity,Gemini
   - GEOSITE,google-gemini,Gemini
   - RULE-SET,gemini,Gemini,no-resolve
   - RULE-SET,openai,ChatGPT,no-resolve
