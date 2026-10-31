@@ -35,9 +35,6 @@ dns:
     - "+.qpic.cn"
     - "+.qlogo.cn"
     - "+.myqcloud.com"
-    - "geosite:cn"
-    - "geosite:apple"
-    - "geosite:microsoft@cn"
 
   default-nameserver:
     - 223.5.5.5
@@ -47,19 +44,16 @@ dns:
     "geosite:cn":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
-    "geosite:geolocation-!cn":
-      - https://1.1.1.1/dns-query
-      - https://dns.google/dns-query
 
   nameserver:
-    - https://1.1.1.1/dns-query
-    - https://dns.google/dns-query
-
-  proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+
+  proxy-server-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
 
   proxy-server-nameserver-policy:
     "geosite:cn":
@@ -132,7 +126,8 @@ proxy-groups:
     proxies:
       - 节点选择
       - DIRECT
-    exclude-filter: "^(?i:(DIRECT|REJECT|PASS))$"
+    # 自动剔除 DIRECT/REJECT 以及香港、澳门、中国大陆节点，防止地区不支持导致 Access Denied
+    exclude-filter: "(?i)(^(DIRECT|REJECT|PASS)$|港|HK|Hong Kong|HongKong|澳门|MO|Macau|CN|中国|内地)"
 
   - name: YouTube分流
     type: select
@@ -161,6 +156,7 @@ proxy-groups:
   - name: 自动选择
     type: url-test
     include-all: true
+    lazy: true
     proxies: []
     url: https://cp.cloudflare.com/generate_204
     interval: 600
@@ -174,20 +170,6 @@ rule-providers:
     format: text
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.list
     path: ./ruleset/blackmatrix7/Advertising.list
-    interval: 86400
-  direct:
-    type: http
-    behavior: domain
-    format: text
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax.list
-    path: ./ruleset/blackmatrix7/ChinaMax.list
-    interval: 86400
-  proxy:
-    type: http
-    behavior: domain
-    format: text
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.list
-    path: ./ruleset/blackmatrix7/Global.list
     interval: 86400
   gemini:
     type: http
@@ -282,6 +264,9 @@ rule-providers:
     interval: 86400
 
 rules:
+  # 禁用 QUIC (UDP 443)，解决 YouTube 4K 缓冲转圈与丢包，强制平滑走 TCP Reality
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT
+
   - RULE-SET,my_proxylist,节点选择
   - RULE-SET,my_whitelist,DIRECT
 
@@ -307,14 +292,10 @@ rules:
   - RULE-SET,google,Google,no-resolve
   - RULE-SET,gvt1,Google,no-resolve
 
-  # 国内直连前置（大幅加速国内 85%+ 请求，降低匹配开销）
-  - RULE-SET,direct,DIRECT
+  # 国内直连前置（使用内置高性能 GEOSITE 与 GEOIP，大幅加速国内 85%+ 请求，降低匹配开销）
   - GEOSITE,cn,DIRECT
   - RULE-SET,cncidr,DIRECT,no-resolve
   - GEOIP,CN,DIRECT,no-resolve
 
-  # 海外通用规则与未分类流量走代理
-  - RULE-SET,proxy,节点选择
-  - GEOSITE,geolocation-!cn,节点选择
-
+  # 未分类流量走代理兜底
   - MATCH,节点选择
