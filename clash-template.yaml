@@ -79,9 +79,6 @@ sniffer:
       ports:
         - 80
         - 8080-8880
-    QUIC:
-      ports:
-        - 443
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
@@ -286,11 +283,18 @@ rules:
   - RULE-SET,openai,ChatGPT,no-resolve
   - RULE-SET,youtube,YouTube分流,no-resolve
   - RULE-SET,telegram,Telegram分流,no-resolve
+  - GEOIP,telegram,Telegram分流,no-resolve
 
   # Google 通用规则兜底
   - RULE-SET,google_play,Google,no-resolve
   - RULE-SET,google,Google,no-resolve
   - RULE-SET,gvt1,Google,no-resolve
+
+  # 常见大流量/系统更新/游戏下载国内 CDN 直连（防止偷跑 VPS 流量）
+  - GEOSITE,steam@cn,DIRECT
+  - GEOSITE,category-games@cn,DIRECT
+  - GEOSITE,microsoft@cn,DIRECT
+  - GEOSITE,apple@cn,DIRECT
 
   # 国内直连前置（使用内置高性能 GEOSITE 与 GEOIP，大幅加速国内 85%+ 请求，降低匹配开销）
   - GEOSITE,cn,DIRECT
